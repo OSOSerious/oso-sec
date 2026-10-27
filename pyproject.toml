@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "asset-audit"
+version = "1.0.0"
+description = "Passive, GET-only external audit SDK for domains you own — inventory, fingerprint, version-confirmed CVE mapping, exposure checks. No exploit logic."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "oso" }]
+keywords = ["security", "audit", "recon", "cve", "asset-inventory"]
+classifiers = [
+    "Topic :: Security",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+asset-audit = "asset_audit.cli:main"
+
+[tool.setuptools]
+packages = ["asset_audit"]

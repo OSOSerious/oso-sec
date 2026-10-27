@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv*/
+build/
+dist/
+
+# Local artifacts — audit output never belongs in git
+*-report.md
+*-report.json
+*-report.zip
+audit-report.*
+sdk-final-report.*
+selftest-report.*
+v2nvd-report.*
+v2-report.*
+
+# Target lists (your real domains — keep local)
+domains.txt
+*-targets.txt
+
+# Live data / caches
+nvd-cache.json
+last-run.json
+current-run.*
+monitor.log
+
+# OS / editor
+.DS_Store
+.trash*/
+space_recovery.txt
+
+# Local-only ops docs
+BONDBALBERT-CLOUDFLARE-RULES.md
+com.oso.asset-audit.plist
+AUDIT-RUN*.md
