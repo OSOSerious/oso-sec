@@ -17,6 +17,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[project.optional-dependencies]
+mcp = ["fastmcp>=2.0"]
+
 [project.scripts]
 asset-audit = "asset_audit.cli:main"
 

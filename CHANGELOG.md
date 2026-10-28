@@ -37,6 +37,16 @@ All notable changes to asset-audit. Dates are YYYY-MM-DD.
   port-specified targets were unreachable.
 - Report CVE tables now use the knowledge-base keys (`from`/`to`) consistently.
 
+### Added (2026-10-28)
+- Optional MCP server (`pip install .[mcp]`, requires `fastmcp>=2.0`):
+  `audit_domains(domains, authorization)` and `get_report()` as standard MCP
+  tools, stdio transport. The `authorization` parameter is required in the tool
+  schema itself — the scope gate survives the wire. Works with any
+  MCP-compatible harness; no client is assumed.
+- Hard exit codes in CLI: `0` success, `1` bad invocation (missing/empty
+  targets), `2` engine error (blank authorization, crashes). Documented in
+  AGENTS.md as the harness decision surface.
+
 ### Security
 - GET-only by design; no exploit logic exists in the codebase and none will be added.
 - Scope safety is structural (engine verbs, constructor gate, enforced 0-FP split),
