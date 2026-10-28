@@ -26,15 +26,19 @@ def main(argv=None):
         with open(args.targets) as f:
             domains = [ln.strip() for ln in f if ln.strip() and not ln.startswith("#")]
     except FileNotFoundError:
-        sys.exit(f"targets file not found: {args.targets}")
+        sys.exit(1)  # bad invocation
     if not domains:
-        sys.exit("no domains in targets file")
+        sys.exit(1)  # bad invocation
 
     print(f'[*] Authorization on record: "{args.authorize}"', file=sys.stderr)
     print(f"[*] Auditing {len(domains)} target(s), GET-only passive checks\n", file=sys.stderr)
 
-    auditor = Auditor(authorization=args.authorize)
-    results = auditor.audit(domains, workers=args.workers)
+    try:
+        auditor = Auditor(authorization=args.authorize)
+        results = auditor.audit(domains, workers=args.workers)
+    except Exception as e:
+        print(f"[!] engine error: {e}", file=sys.stderr)
+        sys.exit(2)  # unhandled engine error
 
     for r in results:
         if r.error:
@@ -42,10 +46,13 @@ def main(argv=None):
         else:
             print(f"[+] {r.host}: {r.fingerprint or 'no stack identified'}", file=sys.stderr)
 
-    if args.nvd:
-        NVDClient().enrich(results)
-
-    md, js = write_reports(results, args.authorize, args.out)
+    try:
+        if args.nvd:
+            NVDClient().enrich(results)
+        md, js = write_reports(results, args.authorize, args.out)
+    except Exception as e:
+        print(f"[!] report error: {e}", file=sys.stderr)
+        sys.exit(2)
     print(f"[+] done: {md}, {js}", file=sys.stderr)
 
     if args.zip:
